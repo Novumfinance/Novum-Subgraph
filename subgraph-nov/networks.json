@@ -1,0 +1,8 @@
+{
+  "holesky": {
+    "NovETH": {
+      "address": "0x37a312d718405e231a43e61ccd2bd2e6a2e2c8b7",
+      "startBlock": 0
+    }
+  }
+}

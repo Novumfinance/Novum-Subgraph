@@ -1,0 +1,50 @@
+
+type UserPoint @entity {
+  id: Bytes! # address
+  balance: BigInt!
+  point: BigInt!
+  lastUpdatedTimestamp: BigInt!
+  referral: Referral
+}
+
+type Referral @entity {
+  id: String! # referral id
+  referees: [UserPoint!]! @derivedFrom(field: "referral")
+}
+
+type TotalPoint @entity {
+  id: Bytes!
+  totalSupply: BigInt!
+  totalPoint: BigInt!
+  lastUpdatedTimestamp: BigInt!
+}
+
+type UserELPointPortion @entity {
+  id: Bytes! # address
+  lstBalance: BigInt!
+  elPointPortion: BigInt!
+  lastUpdatedTimestamp: BigInt!
+}
+
+type TotalELPointPortion @entity {
+  id: Bytes!
+  totalLstBalance: BigInt!
+  totalElPointPortion: BigInt!
+  lastUpdatedTimestamp: BigInt!
+}
+
+type TotalELPoint @entity {
+  id: Bytes!
+  totalElBalance: BigInt!
+  totalElPoint: BigInt!
+  lastUpdatedTimestamp: BigInt!
+}
+
+type Withdrawal @entity {
+  id: Bytes!
+  staker: Bytes!
+  nonce: BigInt!
+  startBlock: BigInt!
+  shares: [BigInt!]
+  completed: Boolean!
+}

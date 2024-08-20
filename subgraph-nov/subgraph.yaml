@@ -1,0 +1,96 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: NovETH
+    network: holesky
+    source:
+      address: "0x37a312d718405e231a43e61ccd2bd2e6a2e2c8b7"
+      abi: NovETH
+      startBlock: 1325056
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TotalPoint
+        - UserPoint
+      abis:
+        - name: NovETH
+          file: ./abis/NovETH.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTrasfer
+      file: ./src/nov-eth.ts
+  - kind: ethereum
+    name: DepositPool
+    network: holesky
+    source:
+      address: "0xbB1836e0f43CCd9b6e7Cb11B70179F72e444C25b"
+      abi: DepositPool
+      startBlock: 1325056
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Referral
+        - UserPoint
+        - UserELPointPortion
+        - TotalELPointPortion
+      abis:
+        - name: DepositPool
+          file: ./abis/DepositPool.json
+      eventHandlers:
+        - event: ETHDeposit(indexed address,uint256,uint256,string)
+          handler: handleETHDeposit
+        - event: AssetDeposit(indexed address,indexed address,uint256,uint256,string)
+          handler: handleAssetDeposit
+      file: ./src/deposit-pool.ts
+  - kind: ethereum
+    name: ETHNodeDelegator
+    network: holesky
+    source:
+      address: "0xDD138807AeA143DD66832967100CaEc96bFE29C4"
+      abi: NodeDelegator
+      startBlock: 1325056
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TotalELPoint
+      abis:
+        - name: NodeDelegator
+          file: ./abis/NodeDelegator.json
+      eventHandlers:
+        - event: ETHStaked(bytes,uint256)
+          handler: handleETHStatked
+        - event: AssetDepositIntoStrategy(indexed address,indexed address,uint256)
+          handler: handleAssetStatked
+      file: ./src/node-delegator.ts
+  - kind: ethereum
+    name: DelegationManager
+    network: holesky
+    source:
+      address: "0xA44151489861Fe9e3055d95adC98FbD462B948e7"
+      abi: DelegationManager
+      startBlock: 1325056
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Withdrawal
+      abis:
+        - name: DelegationManager
+          file: ./abis/DelegationManager.json
+      eventHandlers:
+        - event: WithdrawalQueued(bytes32,(address,address,address,uint256,uint32,address[],uint256[]))
+          handler: handleQueueWithdrawal
+        - event: WithdrawalCompleted(bytes32)
+          handler: handleWithdrawalCompleted
+      file: ./src/delegation-manager.ts
